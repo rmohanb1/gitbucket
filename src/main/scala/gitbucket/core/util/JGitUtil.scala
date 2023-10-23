@@ -899,7 +899,7 @@ object JGitUtil {
         repository.create(true)
         setReceivePack(repository)
         
-        var hooksPath = Paths.get(dir, "hooks").toString()
+        var hooksPath = Paths.get(dir.toString(), "hooks").toString()
         File source = new File(System.getenv("DEFAULT_HOOK_SCRIPT"));
         File dest = new File(hooksPath);
     }
