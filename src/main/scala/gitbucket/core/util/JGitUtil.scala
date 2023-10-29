@@ -898,10 +898,19 @@ object JGitUtil {
       repository =>
         repository.create(true)
         setReceivePack(repository)
-        
-        var hooksPath = Paths.get(dir.toString(), "hooks").toString()
-        File source = new File(System.getenv("DEFAULT_HOOK_SCRIPT"));
-        File dest = new File(hooksPath);
+        var srcPath = sys.env("DEFAULT_HOOK_SCRIPTS").toString()
+        if (!dir.toString.contains("wiki.git") && !srcPath.isEmpty()) {
+          var hooksPath = Paths.get(dir.toString(), "hooks").toString()
+          System.out.print(hooksPath + System.lineSeparator())
+          System.out.print(srcPath + System.lineSeparator())
+          System.out.print("Hello Rohit")
+
+          val src = new File(srcPath)
+          val dest = new File(hooksPath)
+
+          new FileOutputStream(dest).getChannel() transferFrom(
+            new FileInputStream(src) getChannel, 0, Long.MaxValue)
+        }
     }
 
   def cloneRepository(from: java.io.File, to: java.io.File): Unit =
